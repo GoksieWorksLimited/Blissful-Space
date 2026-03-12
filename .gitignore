@@ -22,3 +22,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+#keep.env file off GitHub
+.env
+node_modules/
