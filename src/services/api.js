@@ -125,3 +125,31 @@ export const subscribeNewsletter = async (email) => {
     return null;
   }
 };
+    //paymentVerification
+    
+export const verifyPayment = async (reference, bookingId) => {
+  try {
+    const response = await fetch(`${BASE_URL}/api/payments/verify/`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        reference: reference,
+        booking_id: bookingId,
+      }),
+    });
+
+    const data = await response.json();
+    console.log("VERIFY PAYMENT RESPONSE:", data);
+
+    if (!response.ok) {
+      throw new Error(data.error || "Payment verification failed");
+    }
+
+    return data;
+  } catch (error) {
+    console.error("Verification error:", error);
+    return null;
+  }
+};

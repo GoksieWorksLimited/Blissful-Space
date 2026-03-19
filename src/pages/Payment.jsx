@@ -5,45 +5,36 @@ import { createPayment } from "../services/api";
 function Payment() {
   const location = useLocation();
   const booking = location.state?.booking;
-
   const [loading, setLoading] = useState(false);
 
   if (!booking) return <Navigate to="/booking" />;
 
-  console.log("Booking data:", booking);
-
   const handlePayment = async () => {
-  try {
-    if (!booking.booking_id) {
-      alert("Booking ID missing.");
-      return;
+    try {
+      if (!booking.booking_id) {
+        alert("Booking ID missing.");
+        return;
+      }
+
+      setLoading(true);
+
+      const result = await createPayment(booking.booking_id, booking.email);
+      console.log("Response", result);
+
+      if (result?.authorization_url) {
+        localStorage.setItem("booking_id", booking.booking_id); // ✅ stored AFTER result exists
+        window.location.href = result.authorization_url; // ✅ only once
+      } else {
+        console.error("Backend returned:", result);
+        throw new Error("No authorization URL returned");
+      }
+
+    } catch (error) {
+      console.error("Payment error:", error);
+      alert("Payment initialization failed. Please try again.");
+      setLoading(false);
     }
-    
-
-    setLoading(true);
-
-    const paymentData = {
-  booking_id: booking.booking_id,
-  email: booking.email,
-};
-
-    console.log("Sending payment:", paymentData);
-
-    const result = await createPayment(booking.booking_id, booking.email);
-    console.log("Resonse", result)
-    if (result?.authorization_url) {
-      window.location.href = result.authorization_url;
-    } else {
-      console.error("Backend returned:", result);
-      throw new Error("No authorization URL returned");
-    }
-
-  } catch (error) {
-    console.error("Payment error:", error);
-    alert("Payment initialization failed. Please try again.");
-    setLoading(false);
-  }
-};
+  };
 
   const totalAmount = booking.price * booking.nights;
 
@@ -86,7 +77,7 @@ function Payment() {
             <span className="text-gray-500">Duration:</span>
             <span className="font-semibold">{booking.nights} Night(s)</span>
           </p>
- 
+
           <div className="flex justify-between pt-3 text-lg font-bold text-blue-900">
             <span>Total Amount</span>
             <span>₦{totalAmount.toLocaleString()}</span>

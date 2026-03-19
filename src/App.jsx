@@ -9,6 +9,7 @@ import Contact from "./pages/Contact";
 import Booking from "./pages/Booking";
 import Payment from "./pages/Payment";
 import Success from "./pages/Success";
+import PaymentCallback from "./pages/PaymentCallback.jsx";
 function App() {
   return (
     <>
@@ -23,6 +24,8 @@ function App() {
         <Route path="/booking" element={<Booking />} />
         <Route path="/payment" element={<Payment />} />
         <Route path="/success" element={<Success />} />
+        <Route path="/paymentCallback" element={<PaymentCallback />} />
+        <Route path="/payment-success" element={<PaymentCallback />} />
 
 
         <Route

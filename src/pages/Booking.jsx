@@ -104,8 +104,9 @@ function Booking() {
     if (err.response?.data) {
       const backendErrors = Object.values(err.response.data).flat().join(" ");
       setError(backendErrors);
-    } else {
-      setError("Booking failed. Please try again.");
+    }
+     else {
+      setError("Booking Error: The selected room is no longer available. Please choose another room.");
     }
   } finally {
     setLoading(false);
