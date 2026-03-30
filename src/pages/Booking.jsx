@@ -29,8 +29,26 @@ function Booking() {
   const totalPrice = nights * (selectedRoom?.price || 0);
 
   function handleChange(e) {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+  const { name, value } = e.target;
+
+  if (name === "checkOut" && formData.checkIn && value <= formData.checkIn) {
+    setError("Check-out date must be after check-in date.");
+    setFormData({ ...formData, [name]: "" }); // clear the invalid date
+    return;
   }
+
+  if (name === "checkIn") {
+    // If check-in changes and check-out is now invalid, clear check-out
+    if (formData.checkOut && formData.checkOut <= value) {
+      setFormData({ ...formData, checkIn: value, checkOut: "" });
+      setError("Please select a valid check-out date.");
+      return;
+    }
+  }
+
+  setError(""); // clear error if valid
+  setFormData({ ...formData, [name]: value });
+}
 
   async function handleSubmit(e) {
   e.preventDefault();
