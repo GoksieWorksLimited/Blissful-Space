@@ -80,7 +80,7 @@ function Footer() {
         <div>
           <h4 className="text-white font-semibold mb-4">Newsletter</h4>
 
-          <form onSubmit={handleSubscribe} className="flex gap-2">
+          <form onSubmit={handleSubscribe} className="text-black flex gap-2">
             <input
               type="email"
               placeholder="Enter your email"
