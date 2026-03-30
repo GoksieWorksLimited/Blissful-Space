@@ -18,6 +18,7 @@ function PaymentCallback() {
       }
 
       const result = await verifyPayment(reference, bookingId);
+      console.log("Verify result:", result);
 
       if (result && result.status === "success") {
         setStatus("success");
