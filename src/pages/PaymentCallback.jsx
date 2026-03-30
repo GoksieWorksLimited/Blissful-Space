@@ -20,7 +20,7 @@ function PaymentCallback() {
       const result = await verifyPayment(reference, bookingId);
       console.log("Verify result:", result);
 
-      if (result && result.status === "success") {
+      if (result && result.status === true) {
         setStatus("success");
         localStorage.removeItem("booking_id"); // clean up
         setTimeout(() => navigate("/"), 3000);
